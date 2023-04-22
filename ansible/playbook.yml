@@ -1,0 +1,52 @@
+- name: deploy website
+  hosts: virtualmachines
+  remote_user: root
+  tasks:
+
+    - name: check if docker is installed
+      command: docker --version
+      register: __is_docker_installed
+      ignore_errors: true
+    - name: install docker if it is not yet installed
+      apt:
+        name: docker
+        state: present
+      when: __is_docker_installed.failed
+
+    - name: check if docker-compose is installed
+      command: docker-compose --version
+      register: __is_docker_compose_installed
+      ignore_errors: true
+    - name: install docker-compose if it is not yet installed
+      apt:
+        name: docker-compose
+        state: present
+      when: __is_docker_compose_installed.failed
+
+    - name: check if code folder is already present
+      stat:
+        path: ~/cloud-1
+      register: __is_repo_cloned
+
+    - name: clone repo if is not cloned yet
+      git:
+        repo: https://github.com/S-Stanley/cloud-1.git
+        dest: ~/cloud-1
+      when: __is_repo_cloned.stat.exists == false
+
+    - name: pull main if repo already exist
+      git:
+        repo: https://github.com/S-Stanley/cloud-1.git
+        dest: ~/cloud-1
+        update: yes
+      when: __is_repo_cloned.stat.exists == true
+
+    - name: check if docker is running
+      service:
+        name: docker
+        state: started
+
+    - name: start or restart db containers
+      command: docker-compose up --build -d
+      args:
+        chdir: ~/cloud-1
