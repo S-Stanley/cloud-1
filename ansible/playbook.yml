@@ -31,13 +31,13 @@
 
     - name: clone repo if is not cloned yet
       git:
-        repo: https://github.com/S-Stanley/cloud-1.git
+        repo: git@vogsphere.42paris.fr:vogsphere/intra-uuid-57a5f068-079b-4de2-9253-d8b043ca30a2-4808599-sserbin
         dest: ~/cloud-1
       when: __is_repo_cloned.stat.exists == false
 
     - name: pull main if repo already exist
       git:
-        repo: https://github.com/S-Stanley/cloud-1.git
+        repo: git@vogsphere.42paris.fr:vogsphere/intra-uuid-57a5f068-079b-4de2-9253-d8b043ca30a2-4808599-sserbin
         dest: ~/cloud-1
         update: yes
       when: __is_repo_cloned.stat.exists == true
