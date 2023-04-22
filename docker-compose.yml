@@ -19,7 +19,7 @@ services:
     image: mariadb:10.5.8
     restart: always
     environment:
-      MYSQL_DATABASE: exampledb
+      MYSQL_DATABASE: exampledbs
       MYSQL_USER: exampleuser
       MYSQL_PASSWORD: examplepass
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
@@ -32,7 +32,11 @@ services:
     ports:
       - 8081:80
     environment:
-      - PMA_ARBITRARY=1
+      PMA_ARBITRARY: 1
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: exampleuser
+      PMA_PASSWORD: examplepass
 
 volumes:
   wordpress:
