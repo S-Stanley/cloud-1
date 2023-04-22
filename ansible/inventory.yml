@@ -1,0 +1,6 @@
+virtualmachines:
+  hosts:
+    vm01:
+      ansible_host: 51.159.147.34
+      ansible_user: root
+      http_port: 22
