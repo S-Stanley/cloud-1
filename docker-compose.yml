@@ -14,6 +14,9 @@ services:
       WORDPRESS_DB_NAME: exampledb
     volumes:
       - wordpress:/var/www/html
+    networks:
+      - inside-network
+      - extern-network
 
   db:
     image: mariadb:10.5.8
@@ -25,6 +28,8 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - db:/var/lib/mysql
+    networks:
+      - inside-network
 
   phpmyadmin:
     image: phpmyadmin
@@ -37,7 +42,16 @@ services:
       PMA_PORT: 3306
       PMA_USER: exampleuser
       PMA_PASSWORD: examplepass
+    networks:
+      - inside-network
+      - extern-network
 
 volumes:
   wordpress:
   db:
+
+networks:
+  inside-network:
+    internal: true
+  extern-network:
+    internal: false
