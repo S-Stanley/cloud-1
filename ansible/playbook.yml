@@ -1,5 +1,6 @@
 - name: deploy website
   hosts: virtualmachines
+  strategy: free
   remote_user: root
   tasks:
 
