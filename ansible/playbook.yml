@@ -51,3 +51,4 @@
       command: docker-compose up --build -d
       args:
         chdir: ~/cloud-1
+      ignore_errors: true
